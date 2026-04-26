@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>EchoSphere | Publish Your Music to the World</title>
+  <!-- Google Fonts + simple reset & modern styling -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #0b0a0f 0%, #12121c 100%);
+      font-family: 'Inter', sans-serif;
+      color: #edeef2;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    /* custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1e1e2a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ff6b4a;
+      border-radius: 8px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* header / nav */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFB347, #FF6B4A);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .logo span {
+      background: none;
+      color: #f0f0f0;
+      font-weight: 600;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #cdd1e6;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .nav-links a:hover {
+      color: #ff8a5c;
+    }
+    .publish-btn {
+      background: rgba(255,107,74,0.15);
+      border: 1px solid #ff6b4a;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #ff9f7c;
+      transition: 0.2s;
+    }
+    .publish-btn:hover {
+      background: #ff6b4a;
+      color: white;
+      border-color: #ff6b4a;
+    }
+
+    /* hero section */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 3rem 0 4rem;
+      gap: 2rem;
+    }
+    .hero-text {
+      flex: 1.2;
+    }
+    .hero-text h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(to right, #ffffff, #ffbc8c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1.2rem;
+    }
+    .hero-text p {
+      font-size: 1.2rem;
+      color: #b9c2e6;
+      max-width: 550px;
+      margin-bottom: 2rem;
+    }
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: #ff6b4a;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 8px 18px rgba(255,107,74,0.3);
+    }
+    .btn-primary:hover {
+      background: #ff5430;
+      transform: scale(1.02);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #ff6b4a;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      color: #ffb492;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-outline:hover {
+      background: rgba(255,107,74,0.1);
+      border-color: #ff8a61;
+    }
+    .hero-stats {
+      flex: 0.9;
+      background: rgba(20, 22, 36, 0.6);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      padding: 1.8rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-item i {
+      font-size: 2rem;
+      color: #ff8a5c;
+    }
+    .stat-info h3 {
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+    .stat-info p {
+      color: #9aa4c4;
+    }
+
+    /* featured tracks / published songs section */
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 3rem 0 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-title i {
+      color: #ff6b4a;
+      font-size: 1.8rem;
+    }
+    .songs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 3rem;
+    }
+    .song-card {
+      background: #15171f;
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      transition: all 0.25s ease;
+      border: 1px solid rgba(255,255,255,0.05);
+      backdrop-filter: blur(2px);
+    }
+    .song-card:hover {
+      transform: translateY(-6px);
+      border-color: #ff6b4a70;
+      background: #1a1c27;
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5);
+    }
+    .song-art {
+      background: linear-gradient(145deg, #2c2e42, #1f212e);
+      border-radius: 1rem;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #ffb38b;
+      margin-bottom: 1rem;
+    }
+    .song-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+    }
+    .song-artist {
+      color: #a9b2da;
+      font-size: 0.85rem;
+      margin: 0.3rem 0 0.8rem 0;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .audio-player {
+      width: 100%;
+      margin: 0.7rem 0;
+    }
+    audio {
+      width: 100%;
+      border-radius: 50px;
+      height: 38px;
+    }
+    audio::-webkit-media-controls-panel {
+      background-color: #2a2c3e;
+    }
+    .song-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: #858db0;
+    }
+    .genre-badge {
+      background: #2a2c3e;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    /* upload / publish form */
+    .upload-section {
+      background: rgba(10, 12, 22, 0.8);
+      backdrop-filter: blur(16px);
+      border-radius: 2rem;
+      padding: 2rem;
+      margin: 2rem 0 3rem;
+      border: 1px solid rgba(255,107,74,0.3);
+    }
+    .form-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .form-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .input-group {
+      flex: 1 1 200px;
+    }
+    .input-group label {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+      color: #bfc6ec;
+    }
+    .input-group input, .input-group select {
+      width: 100%;
+      background: #1e202f;
+      border: 1px solid #2d2f42;
+      padding: 0.75rem 1rem;
+      border-radius: 1rem;
+      color: white;
+      font-family: inherit;
+      outline: none;
+      transition: 0.2s;
+    }
+    .input-group input:focus, .input-group select:focus {
+      border-color: #ff6b4a;
+    }
+    .file-input {
+      background: #1e202f;
+      padding: 0.6rem;
+      border-radius: 1rem;
+    }
+    .submit-btn {
+      background: #ff6b4a;
+      border: none;
+      padding: 0 2rem;
+      border-radius: 2rem;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+    .submit-btn:hover {
+      background: #ff5430;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 2rem 0;
+      text-align: center;
+      color: #6f78a3;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 800px) {
+      .hero-text h1 {
+        font-size: 2.3rem;
+      }
+      .container {
+        padding: 0 1.2rem;
+      }
+    }
+    .empty-message {
+      text-align: center;
+      background: #181c26;
+      padding: 3rem;
+      border-radius: 2rem;
+      color: #9da6ca;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- navigation -->
+  <div class="navbar">
+    <div class="logo">Echo<span>Sphere</span> <i class="fas fa-headphones" style="font-size: 1.4rem; color:#ff8a5c"></i></div>
+    <div class="nav-links">
+      <a href="explore.html">Explore</a>
+      <a href="charts.html">Charts</a>
+      <a href="#" id="scrollToPublish" class="publish-btn"><i class="fas fa-cloud-upload-alt"></i> Publish song</a>
+    </div>
+  </div>
+
+  <!-- hero -->
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Publish your sound <br> to the whole world</h1>
+      <p>Join thousands of independent artists. Share your music, reach listeners globally, and build your legacy.</p>
+      <div class="cta-group">
+        <button class="btn-primary" id="heroPublishBtn"><i class="fas fa-upload"></i> Release a track</button>
+        <a href="explore.html"><button class="btn-outline" id="exploreBtn"><i class="fas fa-globe"></i> Discover new music</button></a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <i class="fas fa-music"></i>
+        <div class="stat-info">
+          <h3>120+</h3>
+          <p>published tracks</p>
+        </div>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-users"></i>
+        <div class="stat-info">
+          <h3>2.8k</h3>
+          <p>active artists</p>
+        </div>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-chart-line"></i>
+        <div class="stat-info">
+          <h3>189+</h3>
+          <p>countries streaming</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- songs showcase / library -->
+  <div class="section-title">
+    <i class="fas fa-crown"></i> 
+    <span>🔥 Tracks published worldwide</span>
+  </div>
+  <div id="songsContainer" class="songs-grid">
+    <!-- dynamic songs will be injected here -->
+    <div class="empty-message">✨ No songs yet — be the first to publish your music! Use the form below.</div>
+  </div>
+
+  <!-- publish form (upload new song) -->
+  <div id="publishFormSection" class="upload-section">
+    <div class="form-title"><i class="fas fa-feather-alt"></i> Release a new track</div>
+    <div class="form-grid">
+      <div class="input-group">
+        <label>Song title *</label>
+        <input type="text" id="songTitle" placeholder="e.g., Midnight Dreams" autocomplete="off">
+      </div>
+      <div class="input-group">
+        <label>Artist name *</label>
+        <input type="text" id="artistName" placeholder="Your stage name">
+      </div>
+      <div class="input-group">
+        <label>Genre</label>
+        <select id="genreSelect">
+          <option>Pop</option>
+          <option>Rock</option>
+          <option>Hip Hop</option>
+          <option>Electronic</option>
+          <option>Jazz</option>
+          <option>Indie</option>
+          <option>Classical</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Audio file (MP3 / WAV / M4A)</label>
+        <input type="file" id="audioFile" accept="audio/*" class="file-input">
+      </div>
+      <div class="input-group" style="display: flex; align-items: end;">
+        <button id="uploadSongBtn" class="submit-btn"><i class="fas fa-globe-americas"></i> Publish to world</button>
+      </div>
+    </div>
+    <p style="font-size: 0.7rem; margin-top: 1rem; color:#8e96bc;"><i class="fas fa-info-circle"></i> Your music will be instantly available for the world to stream.</p>
+  </div>
+
+  <footer>
+    <p><i class="far fa-copyright"></i> EchoSphere — amplify your voice. Every sound matters.</p>
+  </footer>
+</div>
+
+<script>
+  // ---------- MUSIC STORAGE ----------
+  // Each song object: id, title, artist, genre, audioURL (blob/dataURL), date
+  let songsArray = [];
+
+  // Load from localStorage on init
+  function loadSongsFromStorage() {
+    const stored = localStorage.getItem("echosphere_songs");
+    if (stored) {
+      try {
+        songsArray = JSON.parse(stored);
+        // Revive audio URLs (they are stored as plain strings, but we also need to keep blob URLs? 
+        // Actually localStorage stores dataURLs (base64) if we convert audio files? We'll store audio as dataURL to be persistent.
+        // However storing big base64 can be heavy, but for demo it's okay. In production would use backend.
+        // But we need to keep functional persistent audio across page reloads.
+        // We'll revalidate each song: ensure audioURL exists, if it's blob we can't restore across reload, so we need to store as base64 during upload.
+        // In our upload method we'll convert file to base64 dataURL and store.
+        // But for existing demo if previous version had blob, skip. We'll re-render correctly.
+        // For safety, filter any song missing valid audio.
+        songsArray = songsArray.filter(song => song.audioURL && song.audioURL.startsWith("data:audio"));
+      } catch(e) { console.warn(e); songsArray = []; }
+    } else {
+      // Seed with 3 amazing demo tracks (using inline base64 demo silent tracks? Actually better use sample short audio from online? 
+      // but due to CORS/ethics, we generate quiet tone? not good. Instead we use external placeholder? I'll use simple embed of known free demo? risky.
+      // To provide realistic demo without external files: I create three built-in example songs that use publicly available audio sample? better: use Web Audio? no.
+      // Use a tiny online example? But that might break offline. Instead I embed base64 of a very short "beep" placeholder? That's not musical.
+      // I will use demo tracks that are actual creative-commons? too complex. Better: Provide premade example cards but show how it works with mock audio?
+      // But we must offer real audio playback. For demonstration, we can embed a couple of demo audio tracks from free sound sample? better to use inline generated empty? no.
+      // I'll include three default songs using a simple free freesound? no. I'll create sample using a public domain instrumental from GitHub? not.
+      // To make functional demo that shows world publishing, we will use pre-defined example audio URLs that are reliable placeholder tracks (Freesound demo but may require credits)
+      // Use assets from https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3 (royalty-free demo) but external.
+      // safer: embed a placeholder message: but user can upload real tracks. I'll provide demo songs via external mp3 (SoundHelix) — creative commons.
+      // For robust, I'll include 3 premade songs that work and are safe.
+      const defaultSongs = [
+        { id: "demo1", title: "Neon Skies", artist: "Luna Haze", genre: "Electronic", audioURL: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", date: new Date().toISOString() },
+        { id: "demo2", title: "Golden Hour", artist: "The Velvet Pines", genre: "Indie", audioURL: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", date: new Date().toISOString() },
+        { id: "demo3", title: "Midnight Drift", artist: "K. Rivers", genre: "Hip Hop", audioURL: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", date: new Date().toISOString() }
+      ];
+      songsArray = defaultSongs;
+      saveSongsToStorage();
+    }
+    renderSongs();
+  }
+
+  function saveSongsToStorage() {
+    // we store whole array (audioURLs as dataURL or external links)
+    localStorage.setItem("echosphere_songs", JSON.stringify(songsArray));
+  }
+
+  // Helper: convert uploaded file to base64 dataURL
+  function fileToDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // publish new song
+  async function publishSong(title, artist, genre, audioFile) {
+    if (!title.trim()) throw new Error("Title required");
+    if (!artist.trim()) throw new Error("Artist required");
+    if (!audioFile) throw new Error("Please select an audio file");
+    
+    let audioDataURL = "";
+    try {
+      audioDataURL = await fileToDataURL(audioFile);
+    } catch(e) {
+      throw new Error("Failed to process audio file");
+    }
+    
+    const newSong = {
+      id: Date.now().toString() + Math.random().toString(36),
+      title: title.trim(),
+      artist: artist.trim(),
+      genre: genre,
+      audioURL: audioDataURL,
+      date: new Date().toISOString(),
+    };
+    songsArray.unshift(newSong); // newest first
+    saveSongsToStorage();
+    renderSongs();
+    return newSong;
+  }
+
+  // render dynamic song grid
+  function renderSongs() {
+    const container = document.getElementById("songsContainer");
+    if (!container) return;
+    
+    if (songsArray.length === 0) {
+      container.innerHTML = `<div class="empty-message"><i class="fas fa-microphone-alt"></i> No songs yet — publish your first track and share with the world!</div>`;
+      return;
+    }
+    
+    let html = "";
+    songsArray.forEach(song => {
+      // format date nice
+      const dateObj = new Date(song.date);
+      const dateStr = dateObj.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+      // genre badge
+      html += `
+        <div class="song-card" data-id="${song.id}">
+          <div class="song-art">
+            <i class="fas fa-waveform"></i>
+          </div>
+          <div class="song-title">
+            <span>${escapeHtml(song.title)}</span>
+            <i class="fas fa-globe" style="font-size: 0.9rem; opacity:0.7"></i>
+          </div>
+          <div class="song-artist">
+            <i class="fas fa-user-astronaut"></i> ${escapeHtml(song.artist)} 
+            <span class="genre-badge">${escapeHtml(song.genre)}</span>
+          </div>
+          <div class="audio-player">
+            <audio controls preload="metadata" src="${song.audioURL}"></audio>
+          </div>
+          <div class="song-meta">
+            <span><i class="far fa-calendar-alt"></i> ${dateStr}</span>
+            <span><i class="fas fa-headphones"></i> worldwide release</span>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
+  
+  function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+
+  // ---------- UI interactions ----------
+  document.addEventListener("DOMContentLoaded", () => {
+    loadSongsFromStorage();
+    
+    // upload button logic
+    const uploadBtn = document.getElementById("uploadSongBtn");
+    const titleInput = document.getElementById("songTitle");
+    const artistInput = document.getElementById("artistName");
+    const genreSelect = document.getElementById("genreSelect");
+    const audioFileInput = document.getElementById("audioFile");
+    
+    async function handleUpload() {
+      const title = titleInput.value;
+      const artist = artistInput.value;
+      const genre = genreSelect.value;
+      const file = audioFileInput.files[0];
+      
+      if (!title) {
+        alert("Please enter a song title");
+        return;
+      }
+      if (!artist) {
+        alert("Please enter artist name");
+        return;
+      }
+      if (!file) {
+        alert("Please select an audio file (MP3, WAV, etc.)");
+        return;
+      }
+      // size warning: but fine
+      if (file.size > 25 * 1024 * 1024) {
+        alert("File too large (max 25MB) — for demo purposes, please choose smaller track.");
+        return;
+      }
+      
+      try {
+        uploadBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Publishing...';
+        uploadBtn.disabled = true;
+        await publishSong(title, artist, genre, file);
+        // reset form
+        titleInput.value = "";
+        artistInput.value = "";
+        audioFileInput.value = "";
+        genreSelect.value = "Pop";
+        alert("✅ Your song is now published to the world! Listeners can stream it.");
+      } catch (err) {
+        alert("Error: " + err.message);
+      } finally {
+        uploadBtn.innerHTML = '<i class="fas fa-globe-americas"></i> Publish to world';
+        uploadBtn.disabled = false;
+      }
+    }
+    
+    uploadBtn.addEventListener("click", handleUpload);
+    
+    // scroll to publish section
+    const scrollToPublishBtn = document.getElementById("scrollToPublish");
+    const heroPublish = document.getElementById("heroPublishBtn");
+    const publishSection = document.getElementById("publishFormSection");
+    
+    function scrollToForm() {
+      publishSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    if(scrollToPublishBtn) scrollToPublishBtn.addEventListener("click", scrollToForm);
+    if(heroPublish) heroPublish.addEventListener("click", scrollToForm);
+    
+    // explore button just scroll to songs
+    const exploreBtn = document.getElementById("exploreBtn");
+    if(exploreBtn) {
+      exploreBtn.addEventListener("click", () => {
+        const songsContainerDiv = document.getElementById("songsContainer");
+        songsContainerDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+    
+    // optional: handle enter key in form fields
+    const formInputs = [titleInput, artistInput];
+    formInputs.forEach(inp => {
+      inp.addEventListener("keypress", (e) => {
+        if(e.key === "Enter") {
+          e.preventDefault();
+          handleUpload();
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

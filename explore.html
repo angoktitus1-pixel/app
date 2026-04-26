@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>EchoSphere | Charts - Trending Music</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #0b0a0f 0%, #12121c 100%);
+      font-family: 'Inter', sans-serif;
+      color: #edeef2;
+      line-height: 1.5;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1e1e2a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ff6b4a;
+      border-radius: 8px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFB347, #FF6B4A);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo span {
+      background: none;
+      color: #f0f0f0;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #cdd1e6;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+      padding: 0.5rem 0;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: #ff8a5c;
+      border-bottom: 2px solid #ff6b4a;
+    }
+    .publish-btn {
+      background: rgba(255,107,74,0.15);
+      border: 1px solid #ff6b4a;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #ff9f7c;
+      text-decoration: none;
+    }
+    .publish-btn:hover {
+      background: #ff6b4a;
+      color: white;
+    }
+
+    .charts-header {
+      margin: 2rem 0 1rem;
+    }
+    .charts-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .charts-header p {
+      color: #b9c2e6;
+      margin-top: 0.5rem;
+    }
+    .chart-tabs {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem 0 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 0.5rem;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: #9aa4c4;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      border-radius: 40px;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+    .tab-btn.active {
+      background: #ff6b4a20;
+      color: #ff9f7c;
+      border-bottom: 2px solid #ff6b4a;
+    }
+    .tab-btn:hover {
+      color: white;
+    }
+
+    .chart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 3rem;
+    }
+    .chart-item {
+      background: #15171f;
+      border-radius: 1.2rem;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.2s;
+      border: 1px solid rgba(255,255,255,0.05);
+      flex-wrap: wrap;
+    }
+    .chart-item:hover {
+      background: #1a1c27;
+      transform: translateX(5px);
+      border-color: #ff6b4a50;
+    }
+    .rank {
+      font-size: 1.8rem;
+      font-weight: 800;
+      width: 60px;
+      text-align: center;
+      background: linear-gradient(135deg, #FFB347, #FF6B4A);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .chart-info {
+      flex: 2;
+      min-width: 180px;
+    }
+    .chart-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .chart-artist {
+      font-size: 0.85rem;
+      color: #a9b2da;
+    }
+    .chart-genre {
+      background: #2a2c3e;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      width: fit-content;
+    }
+    .chart-audio {
+      flex: 1;
+      min-width: 200px;
+    }
+    audio {
+      width: 100%;
+      height: 38px;
+      border-radius: 50px;
+    }
+    .stream-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #1e202f;
+      padding: 0.3rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      color: #ffb492;
+    }
+    .empty-charts {
+      text-align: center;
+      background: #181c26;
+      padding: 3rem;
+      border-radius: 2rem;
+    }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 2rem 0;
+      text-align: center;
+      color: #6f78a3;
+      margin-top: 2rem;
+    }
+    @media (max-width: 800px) {
+      .chart-item { flex-direction: column; align-items: flex-start; }
+      .rank { width: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="navbar">
+    <div class="logo">Echo<span>Sphere</span> <i class="fas fa-chart-line"></i></div>
+    <div class="nav-links">
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="charts.html" class="active">Charts</a>
+      <a href="home.html#publishFormSection" class="publish-btn"><i class="fas fa-cloud-upload-alt"></i> Publish song</a>
+    </div>
+  </div>
+
+  <div class="charts-header">
+    <h1><i class="fas fa-trophy"></i> Global Charts</h1>
+    <p>Most played and trending tracks across EchoSphere — updated in real time</p>
+  </div>
+
+  <div class="chart-tabs">
+    <button class="tab-btn active" data-chart="top">🏆 Top 10 Global</button>
+    <button class="tab-btn" data-chart="trending">🔥 Trending Now</button>
+    <button class="tab-btn" data-chart="fresh">✨ Fresh Releases</button>
+  </div>
+
+  <div id="chartContainer" class="chart-list">
+    <div class="empty-charts"><i class="fas fa-chart-simple"></i> Loading chart data...</div>
+  </div>
+
+  <footer>
+    <p><i class="far fa-chart-bar"></i> Rankings based on recent streams & engagement • Updated live</p>
+  </footer>
+</div>
+
+<script>
+  let librarySongs = [];
+  let currentChart = "top";
+
+  function loadLibrary() {
+    const stored = localStorage.getItem("echosphere_songs");
+    if (stored) {
+      try {
+        librarySongs = JSON.parse(stored);
+      } catch(e) { librarySongs = []; }
+    } else {
+      librarySongs = [];
+    }
+    updateCharts();
+  }
+
+  // Generate random "stream" counts for demo purposes (persistent per session but fun)
+  // To make charts dynamic we generate consistent stream counts based on song ID + date to mimic popularity
+  function getStreamCount(song, index) {
+    // deterministic but gives variation: use id hash and also newer songs get boost for trending
+    let hash = 0;
+    const idStr = song.id + song.title;
+    for(let i = 0; i < idStr.length; i++) {
+      hash = ((hash << 5) - hash) + idStr.charCodeAt(i);
+      hash |= 0;
+    }
+    const baseStreams = Math.abs(hash % 5000) + 200;
+    // add extra for songs published in last 7 days (freshness)
+    const daysSince = (new Date() - new Date(song.date)) / (1000 * 3600 * 24);
+    let freshnessBonus = 0;
+    if (daysSince < 7) freshnessBonus = 800;
+    else if (daysSince < 30) freshnessBonus = 300;
+    return baseStreams + freshnessBonus + (librarySongs.length - index) * 10;
+  }
+
+  // calculate trending score: streams + recency factor
+  function getTrendingScore(song, index) {
+    const streams = getStreamCount(song, index);
+    const daysSince = (new Date() - new Date(song.date)) / (1000 * 3600 * 24);
+    const recencyFactor = Math.max(0, (30 - daysSince) / 30) * 800;
+    return streams + recencyFactor;
+  }
+
+  function getTop10() {
+    const withStreams = librarySongs.map((song, idx) => ({
+      ...song,
+      streams: getStreamCount(song, idx)
+    }));
+    withStreams.sort((a, b) => b.streams - a.streams);
+    return withStreams.slice(0, 10);
+  }
+
+  function getTrending() {
+    const withTrend = librarySongs.map((song, idx) => ({
+      ...song,
+      trendingScore: getTrendingScore(song, idx),
+      streams: getStreamCount(song, idx)
+    }));
+    withTrend.sort((a, b) => b.trendingScore - a.trendingScore);
+    return withTrend.slice(0, 10);
+  }
+
+  function getFreshReleases() {
+    const fresh = [...librarySongs];
+    fresh.sort((a, b) => new Date(b.date) - new Date(a.date));
+    return fresh.slice(0, 10);
+  }
+
+  function formatStreams(num) {
+    if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+    return num.toString();
+  }
+
+  function renderCharts() {
+    const container = document.getElementById("chartContainer");
+    let data = [];
+    let titlePrefix = "";
+
+    if (currentChart === "top") {
+      data = getTop10();
+      titlePrefix = "🏆 Global Top 10";
+    } else if (currentChart === "trending") {
+      data = getTrending();
+      titlePrefix = "🔥 Trending Now";
+    } else {
+      data = getFreshReleases();
+      titlePrefix = "✨ Fresh Drops";
+    }
+
+    if (!data.length) {
+      container.innerHTML = `<div class="empty-charts"><i class="fas fa-head-side-vr"></i> No songs published yet. Be the first to release a track and dominate the charts!</div>`;
+      return;
+    }
+
+    let html = "";
+    data.forEach((song, idx) => {
+      const dateObj = new Date(song.date);
+      const dateStr = dateObj.toLocaleDateString();
+      let streamsDisplay = "";
+      if (currentChart !== "fresh") {
+        const streams = currentChart === "top" ? getStreamCount(song, librarySongs.indexOf(song)) : getStreamCount(song, librarySongs.indexOf(song));
+        streamsDisplay = `<div class="stream-badge"><i class="fas fa-play-circle"></i> ${formatStreams(streams)} streams</div>`;
+      } else {
+        streamsDisplay = `<div class="stream-badge"><i class="far fa-calendar-alt"></i> ${dateStr}</div>`;
+      }
+      
+      html += `
+        <div class="chart-item">
+          <div class="rank">#${idx + 1}</div>
+          <div class="chart-info">
+            <div class="chart-title">${escapeHtml(song.title)}</div>
+            <div class="chart-artist">${escapeHtml(song.artist)}</div>
+            <div class="chart-genre">${escapeHtml(song.genre)}</div>
+          </div>
+          <div class="chart-audio">
+            <audio controls preload="metadata" src="${song.audioURL}"></audio>
+          </div>
+          ${streamsDisplay}
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
+
+  function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  function updateCharts() {
+    renderCharts();
+  }
+
+  // event listeners
+  document.addEventListener("DOMContentLoaded", () => {
+    loadLibrary();
+    
+    const tabs = document.querySelectorAll(".tab-btn");
+    tabs.forEach(tab => {
+      tab.addEventListener("click", (e) => {
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        currentChart = tab.getAttribute("data-chart");
+        renderCharts();
+      });
+    });
+    
+    // sync with localStorage changes from other tabs
+    window.addEventListener("storage", (e) => {
+      if (e.key === "echosphere_songs") {
+        loadLibrary();
+      }
+    });
+    
+    setInterval(() => {
+      const stored = localStorage.getItem("echosphere_songs");
+      if (stored) {
+        try {
+          const newSongs = JSON.parse(stored);
+          if (JSON.stringify(newSongs) !== JSON.stringify(librarySongs)) {
+            librarySongs = newSongs;
+            renderCharts();
+          }
+        } catch(e) {}
+      }
+    }, 1500);
+  });
+</script>
+</body>
+</html>

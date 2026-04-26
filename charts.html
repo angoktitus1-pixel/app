@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>EchoSphere | Explore Music</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #0b0a0f 0%, #12121c 100%);
+      font-family: 'Inter', sans-serif;
+      color: #edeef2;
+      line-height: 1.5;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1e1e2a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ff6b4a;
+      border-radius: 8px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFB347, #FF6B4A);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .logo span {
+      background: none;
+      color: #f0f0f0;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #cdd1e6;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+      padding: 0.5rem 0;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: #ff8a5c;
+      border-bottom: 2px solid #ff6b4a;
+    }
+    .publish-btn {
+      background: rgba(255,107,74,0.15);
+      border: 1px solid #ff6b4a;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #ff9f7c;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+    .publish-btn:hover {
+      background: #ff6b4a;
+      color: white;
+    }
+
+    /* search & filter */
+    .explore-header {
+      margin: 2rem 0 1.5rem;
+    }
+    .explore-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+    .search-bar {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .search-input {
+      flex: 1;
+      background: #1e202f;
+      border: 1px solid #2d2f42;
+      padding: 0.9rem 1.2rem;
+      border-radius: 50px;
+      color: white;
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: #ff6b4a;
+    }
+    .filter-group {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-select {
+      background: #1e202f;
+      border: 1px solid #2d2f42;
+      padding: 0.9rem 1.2rem;
+      border-radius: 50px;
+      color: white;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .stats-info {
+      color: #9aa4c4;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+    .songs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 3rem;
+    }
+    .song-card {
+      background: #15171f;
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      transition: all 0.25s ease;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .song-card:hover {
+      transform: translateY(-6px);
+      border-color: #ff6b4a70;
+      background: #1a1c27;
+    }
+    .song-art {
+      background: linear-gradient(145deg, #2c2e42, #1f212e);
+      border-radius: 1rem;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #ffb38b;
+      margin-bottom: 1rem;
+    }
+    .song-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .song-artist {
+      color: #a9b2da;
+      font-size: 0.85rem;
+      margin: 0.3rem 0 0.8rem;
+    }
+    audio {
+      width: 100%;
+      border-radius: 50px;
+      height: 38px;
+      margin: 0.5rem 0;
+    }
+    .song-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: #858db0;
+    }
+    .genre-badge {
+      background: #2a2c3e;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+    }
+    .empty-message {
+      text-align: center;
+      background: #181c26;
+      padding: 3rem;
+      border-radius: 2rem;
+      color: #9da6ca;
+      grid-column: 1 / -1;
+    }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 2rem 0;
+      text-align: center;
+      color: #6f78a3;
+      margin-top: 2rem;
+    }
+    @media (max-width: 768px) {
+      .container { padding: 0 1.2rem; }
+      .search-bar { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="navbar">
+    <div class="logo">Echo<span>Sphere</span> <i class="fas fa-headphones"></i></div>
+    <div class="nav-links">
+      <a href="home.html">Home</a>
+      <a href="explore.html" class="active">Explore</a>
+      <a href="charts.html">Charts</a>
+      <a href="home.html#publishFormSection" class="publish-btn"><i class="fas fa-cloud-upload-alt"></i> Publish song</a>
+    </div>
+  </div>
+
+  <div class="explore-header">
+    <h1><i class="fas fa-compass"></i> Explore music</h1>
+    <div class="search-bar">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search by song title or artist...">
+      <div class="filter-group">
+        <select id="genreFilter" class="filter-select">
+          <option value="all">All Genres</option>
+          <option>Pop</option>
+          <option>Rock</option>
+          <option>Hip Hop</option>
+          <option>Electronic</option>
+          <option>Jazz</option>
+          <option>Indie</option>
+          <option>Classical</option>
+        </select>
+        <select id="sortBy" class="filter-select">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="artist">Artist A-Z</option>
+        </select>
+      </div>
+    </div>
+    <div class="stats-info" id="statsInfo">Loading tracks...</div>
+  </div>
+
+  <div id="songsContainer" class="songs-grid">
+    <div class="empty-message"><i class="fas fa-music"></i> Loading your music library...</div>
+  </div>
+
+  <footer>
+    <p><i class="far fa-copyright"></i> EchoSphere — discover sounds from around the globe</p>
+  </footer>
+</div>
+
+<script>
+  let allSongs = [];
+
+  function loadSongs() {
+    const stored = localStorage.getItem("echosphere_songs");
+    if (stored) {
+      try {
+        allSongs = JSON.parse(stored);
+      } catch(e) { allSongs = []; }
+    } else {
+      allSongs = [];
+    }
+    renderAndFilter();
+  }
+
+  function renderAndFilter() {
+    const searchTerm = document.getElementById("searchInput")?.value.toLowerCase() || "";
+    const genreValue = document.getElementById("genreFilter")?.value || "all";
+    const sortValue = document.getElementById("sortBy")?.value || "newest";
+
+    let filtered = allSongs.filter(song => {
+      const matchesSearch = song.title.toLowerCase().includes(searchTerm) || 
+                            song.artist.toLowerCase().includes(searchTerm);
+      const matchesGenre = genreValue === "all" || song.genre === genreValue;
+      return matchesSearch && matchesGenre;
+    });
+
+    // sorting
+    if (sortValue === "newest") {
+      filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else if (sortValue === "oldest") {
+      filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+    } else if (sortValue === "artist") {
+      filtered.sort((a, b) => a.artist.localeCompare(b.artist));
+    }
+
+    const container = document.getElementById("songsContainer");
+    const statsSpan = document.getElementById("statsInfo");
+    
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="empty-message"><i class="fas fa-search"></i> No tracks found. Try different keywords or publish a new song!</div>`;
+      statsSpan.innerHTML = `📀 No matching tracks`;
+      return;
+    }
+    
+    statsSpan.innerHTML = `🎵 ${filtered.length} track${filtered.length !== 1 ? 's' : ''} found • Global library`;
+    
+    let html = "";
+    filtered.forEach(song => {
+      const dateObj = new Date(song.date);
+      const dateStr = dateObj.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+      html += `
+        <div class="song-card">
+          <div class="song-art">
+            <i class="fas fa-headphones"></i>
+          </div>
+          <div class="song-title">
+            <span>${escapeHtml(song.title)}</span>
+            <i class="fas fa-globe" style="font-size:0.8rem; opacity:0.6"></i>
+          </div>
+          <div class="song-artist">
+            <i class="fas fa-user"></i> ${escapeHtml(song.artist)} 
+            <span class="genre-badge">${escapeHtml(song.genre)}</span>
+          </div>
+          <audio controls preload="metadata" src="${song.audioURL}"></audio>
+          <div class="song-meta">
+            <span><i class="far fa-calendar-alt"></i> ${dateStr}</span>
+            <span><i class="fas fa-headphones"></i> worldwide</span>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
+
+  function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  // Event listeners and storage sync
+  document.addEventListener("DOMContentLoaded", () => {
+    loadSongs();
+    
+    const searchInput = document.getElementById("searchInput");
+    const genreFilter = document.getElementById("genreFilter");
+    const sortBy = document.getElementById("sortBy");
+    
+    if (searchInput) searchInput.addEventListener("input", () => renderAndFilter());
+    if (genreFilter) genreFilter.addEventListener("change", () => renderAndFilter());
+    if (sortBy) sortBy.addEventListener("change", () => renderAndFilter());
+    
+    // Listen for storage changes (when user publishes new song from home page)
+    window.addEventListener("storage", (e) => {
+      if (e.key === "echosphere_songs") {
+        loadSongs();
+      }
+    });
+    
+    // Optional: periodic check for updates (every 2 sec) - ensures sync when both pages open
+    setInterval(() => {
+      const stored = localStorage.getItem("echosphere_songs");
+      if (stored) {
+        try {
+          const newSongs = JSON.parse(stored);
+          if (JSON.stringify(newSongs) !== JSON.stringify(allSongs)) {
+            allSongs = newSongs;
+            renderAndFilter();
+          }
+        } catch(e) {}
+      }
+    }, 1500);
+  });
+</script>
+</body>
+</html>
